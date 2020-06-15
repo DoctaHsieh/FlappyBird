@@ -4,14 +4,14 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class FlappyBird implements ActionListener, MouseListener {
+public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     public static FlappyBird flappyBird;
     public final int WIDTH = 800, HEIGHT = 800;
     public Rectangle bird;
     public int ticks, yMotion, score;
     public Renderer renderer;
     public ArrayList<Rectangle> columns;
-    public boolean gameOver, started;
+    public boolean gameOver, started, easy, normal, hard;
     public Random rand;
 
     public FlappyBird() {
@@ -19,6 +19,10 @@ public class FlappyBird implements ActionListener, MouseListener {
         Timer timer = new Timer(20, this);
         renderer = new Renderer();
         rand = new Random();
+
+        easy = false;
+        normal= false;
+        hard = false;
 
         jframe.add(renderer);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -207,6 +211,30 @@ public class FlappyBird implements ActionListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    public void keyPressed(KeyEvent e) {
+         if(e.getKeyCode() == KeyEvent.VK_1){
+             easy = true;
+
+         }
+        if(e.getKeyCode() == KeyEvent.VK_2){
+            normal = true;
+
+        }
+        if(e.getKeyCode() == KeyEvent.VK_3){
+            hard= true;
+
+        }
+
+    }
+
+    public void keyReleased(KeyEvent e) {
 
     }
 }
