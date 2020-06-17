@@ -4,15 +4,16 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class FlappyBird implements ActionListener, MouseListener, KeyListener {
+public class FlappyBird implements ActionListener, MouseListener {
     public static FlappyBird flappyBird;
     public final int WIDTH = 800, HEIGHT = 800;
     public Rectangle bird;
-    public int ticks, yMotion, score;
+    public int ticks, yMotion, score, stage;
     public Renderer renderer;
     public ArrayList<Rectangle> columns;
     public boolean gameOver, started, easy, normal, hard;
     public Random rand;
+    static final int GAP =7 ;
 
     public FlappyBird() {
         JFrame jframe = new JFrame();
@@ -20,8 +21,11 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         renderer = new Renderer();
         rand = new Random();
 
+
+
+
         easy = false;
-        normal= false;
+        normal = false;
         hard = false;
 
         jframe.add(renderer);
@@ -49,8 +53,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         int height = 50 + rand.nextInt(300);
 
         if (start) {
-            columns.add(new Rectangle(WIDTH + width + columns.size() * 300, HEIGHT - height - 120, width, height));
+            columns.add(new Rectangle(WIDTH + width + columns.size() * 300, HEIGHT - height -120, width, height));
             columns.add(new Rectangle(WIDTH + width + (columns.size() - 1) * 300, 0, width, HEIGHT - height - space));
+
         } else {
             columns.add(new Rectangle(columns.get(columns.size() - 1).x + 600, HEIGHT - height - 120, width, height));
             columns.add(new Rectangle(columns.get(columns.size() - 1).x, 0, width, HEIGHT - height - space));
@@ -58,6 +63,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         }
 
     }
+
 
     public void paintColumn(Graphics g, Rectangle column) {
         g.setColor(Color.green.darker());
@@ -95,8 +101,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
         int speed = 10;
 
+        if(score >= 20){
+            speed = score/ 2;
+        }
+
+
+
         ticks++;
         if (started) {
+
             for (int i = 0; i < columns.size(); i++) {
                 Rectangle column = columns.get(i);
 
@@ -106,6 +119,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                 yMotion += 2;
 
             }
+
             for (int i = 0; i < columns.size(); i++) {
                 Rectangle column = columns.get(i);
 
@@ -125,12 +139,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                     gameOver = true;
                     if (bird.x <= column.x) {
                         bird.x = column.x - bird.width;
-                    }
-                    else{
-                        if(column.y != 0){
+                    } else {
+                        if (column.y != 0) {
                             bird.y = column.y - bird.height;
-                        }
-                        else if(bird.y < column.height){
+                        } else if (bird.y < column.height) {
                             bird.y = column.height;
                         }
                     }
@@ -214,27 +226,4 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     }
 
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    public void keyPressed(KeyEvent e) {
-         if(e.getKeyCode() == KeyEvent.VK_1){
-             easy = true;
-
-         }
-        if(e.getKeyCode() == KeyEvent.VK_2){
-            normal = true;
-
-        }
-        if(e.getKeyCode() == KeyEvent.VK_3){
-            hard= true;
-
-        }
-
-    }
-
-    public void keyReleased(KeyEvent e) {
-
-    }
 }
